@@ -6,6 +6,7 @@ This project documents a hands-on Security Operations Center (SOC) lab that simu
 
 The lab demonstrates how raw network traffic can be captured, transformed into security telemetry, ingested into a SIEM, and analyzed using search queries and dashboard-ready metrics.
 
+
 ## Short Description
 
 Designed and implemented a hands-on SOC monitoring lab using Wireshark, Npcap, Kali Linux, Docker, Zeek, and Splunk to simulate real-world network security operations. The project focused on packet capture, network telemetry generation, SIEM ingestion, threat hunting, field extraction, and dashboard visualization to analyze DNS, HTTPS, mDNS, and TCP traffic within a controlled lab environment.
