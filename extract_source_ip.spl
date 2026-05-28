@@ -1,2 +1,0 @@
-sourcetype="zeek_conn"
-| rex field=_raw "(?<src_ip>\d+\.\d+\.\d+\.\d+)"
