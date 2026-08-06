@@ -1,0 +1,49 @@
+name: Repository Hygiene Check
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  hygiene-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check README exists
+        run: |
+          if [ ! -f README.md ]; then
+            echo "::error::README.md is required"
+            exit 1
+          fi
+
+      - name: Validate README sections
+        run: |
+          REQUIRED=("Objective" "Architecture" "Tools" "Results" "Lessons Learned")
+          MISSING=()
+          for section in "${REQUIRED[@]}"; do
+            if ! grep -qi "## .*${section}" README.md; then
+              MISSING+=("$section")
+            fi
+          done
+          if [ ${#MISSING[@]} -ne 0 ]; then
+            echo "::error::README missing required sections: ${MISSING[*]}"
+            exit 1
+          fi
+
+      - name: Check for architecture diagram reference
+        run: |
+          if ! grep -qiE "(architecture|diagram|flow)\.(png|jpg|svg|drawio)" README.md; then
+            echo "::warning::No architecture diagram found in README"
+          fi
+
+      - name: Check topic tags
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TOPICS=$(gh api repos/${{ github.repository }} --jq '.topics | length')
+          if [ "$TOPICS" -lt 3 ]; then
+            echo "::warning::Repository has fewer than 3 topic tags"
+          fi
