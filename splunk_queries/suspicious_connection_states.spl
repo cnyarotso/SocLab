@@ -1,3 +1,6 @@
-sourcetype="zeek_conn" (S0 OR OTH OR SHR)
-| rex field=_raw "(?<src_ip>\d+\.\d+\.\d+\.\d+)"
-| stats count by src_ip
+sourcetype="zeek_conn"
+| rex field=_raw "^(?<ts>\d+(?:\.\d+)?)\s+(?<uid>\S+)\s+(?<src_ip>\S+)\s+(?<src_port>\d+)\s+(?<dest_ip>\S+)\s+(?<dest_port>\d+)\s+(?<proto>\S+)\s+(?<service>\S+)\s+(?<duration>\S+)\s+(?<orig_bytes>\S+)\s+(?<resp_bytes>\S+)\s+(?<conn_state>\S+)"
+| where conn_state IN ("S0", "OTH", "SHR")
+| stats count AS events dc(dest_ip) AS unique_destinations values(dest_port) AS destination_ports min(_time) AS first_seen max(_time) AS last_seen by src_ip conn_state
+| convert ctime(first_seen) ctime(last_seen)
+| sort - events
