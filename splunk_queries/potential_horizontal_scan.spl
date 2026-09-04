@@ -1,0 +1,7 @@
+sourcetype="zeek_conn"
+| rex field=_raw "^(?<ts>\d+(?:\.\d+)?)\s+(?<uid>\S+)\s+(?<src_ip>\S+)\s+(?<src_port>\d+)\s+(?<dest_ip>\S+)\s+(?<dest_port>\d+)\s+(?<proto>\S+)\s+(?<service>\S+)\s+(?<duration>\S+)\s+(?<orig_bytes>\S+)\s+(?<resp_bytes>\S+)\s+(?<conn_state>\S+)"
+| where isnotnull(src_ip) AND NOT cidrmatch("224.0.0.0/4", dest_ip)
+| bin _time span=5m
+| stats dc(dest_ip) AS unique_destinations values(dest_port) AS destination_ports count AS connections by src_ip _time
+| where unique_destinations >= 20
+| sort - unique_destinations
