@@ -50,6 +50,26 @@ The raw PCAP and generated Zeek logs are not published. The repository contains 
 
 The lab uses Wireshark/Npcap for collection, Dockerized Zeek for network telemetry, and Splunk/SPL for normalization, hunting, and reporting.
 
+## Featured evidence
+
+### Splunk ingestion and search
+
+![Splunk search results showing Zeek connection events](screenshots/12_splunk_search_results.png)
+
+*What this proves:* the Zeek connection telemetry was successfully ingested and was searchable in Splunk. It does not, by itself, prove malicious activity.
+
+### Field extraction
+
+![Splunk SPL field extraction for source IP](screenshots/13_splunk_rex_field_extraction.png)
+
+*What this proves:* raw Zeek events were transformed into an analyst-usable source field that can support aggregation and pivots.
+
+### Source-host prioritization
+
+![Splunk statistics grouped by source IP](screenshots/14_splunk_stats_by_src_ip.png)
+
+*What this proves:* activity can be ranked to decide where to begin. Event frequency remains a prioritization signal, not a severity verdict.
+
 ## Results and analyst assessment
 
 | Observation | Assessment | Analyst action |
@@ -79,6 +99,14 @@ The next iteration correlates network destinations and DNS queries with vetted i
 
 See the [threat-enrichment plan](docs/threat_enrichment_plan.md).
 
+## Attacker and defender perspectives
+
+| Perspective | Interpretation |
+|---|---|
+| Attacker | Discovery or scanning can appear as repeated attempts across destinations or ports, but a capable actor may slow activity to stay below simple thresholds. |
+| Defender | Group activity by source, destination diversity, port, state, and time window; remove expected multicast and approved scanning; then enrich the remaining leads with asset and intelligence context. |
+| Detection gap | Network telemetry alone cannot establish the initiating process, user, vulnerability, or business impact. Endpoint, identity, vulnerability, and CMDB data would raise confidence. |
+
 ## ATT&CK-informed hypothesis
 
 Repeated connection attempts across many destinations may justify testing a **Network Service Discovery (T1046)** hypothesis. This mapping is a hypothesis to validate—not a finding. Confirmation would require a meaningful destination count, a tight time window, relevant ports, asset context, and exclusion of approved scanners or administrative tools.
@@ -102,6 +130,17 @@ Repeated connection attempts across many destinations may justify testing a **Ne
 | `screenshots/` | Visual record of setup, ingestion, extraction, and analysis |
 | `notes/` | Workflow and troubleshooting decisions |
 | `zeek_commands/` | Reproducible Docker/Zeek processing steps |
+
+## Connection to cybersecurity analyst work
+
+This project demonstrates the ability to:
+
+- onboard and validate a network data source;
+- translate raw telemetry into searchable fields;
+- develop and tune hypothesis-driven SPL;
+- distinguish an observation from an incident verdict;
+- document evidence, confidence, false-positive considerations, and next actions; and
+- design the next correlation step across threat intelligence, asset, vulnerability, endpoint, and identity data.
 
 ## Limitations
 
