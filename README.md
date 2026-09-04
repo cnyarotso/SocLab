@@ -2,7 +2,7 @@
 
 > A hands-on SOC case study that transforms packet-capture data into searchable Zeek telemetry, triages network behavior in Splunk, and documents what the evidence does—and does not—support.
 
-## Executive snapshot
+## Objective and executive snapshot
 
 | Area | Detail |
 |---|---|
@@ -13,7 +13,7 @@
 | Outcome | Produced repeatable searches for source activity and incomplete connections; classified local mDNS behavior as expected and retained unusual states as leads requiring more context |
 | Confidence | No compromise is claimed from this small lab dataset |
 
-## Why this project matters
+## Lessons learned and why this project matters
 
 This lab demonstrates four habits that transfer to threat intelligence, exposure management, and SOC work:
 
@@ -46,7 +46,11 @@ The raw PCAP and generated Zeek logs are not published. The repository contains 
 7. Compared source activity and reviewed incomplete or unusual connection states.
 8. Documented a disposition and the enrichment needed before escalation.
 
-## Evidence and assessment
+## Tools and evidence
+
+The lab uses Wireshark/Npcap for collection, Dockerized Zeek for network telemetry, and Splunk/SPL for normalization, hunting, and reporting.
+
+## Results and analyst assessment
 
 | Observation | Assessment | Analyst action |
 |---|---|---|
