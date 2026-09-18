@@ -1,0 +1,8 @@
+| inputlookup synthetic_zeek_investigation.csv
+| eval is_multicast=if(cidrmatch("224.0.0.0/4", dest_ip),1,0)
+| eventstats dc(eval(if(is_multicast=0 AND approved_scanner="false",dest_ip,null()))) AS unique_destinations values(conn_state) AS states by src_ip
+| eval scan_lead=if(unique_destinations>=5 AND mvfind(states,"S0")>=0,"true","false")
+| eval enrichment_lead=if(intel_match="true" AND intel_confidence IN ("moderate","high"),"true","false")
+| where scan_lead="true" OR enrichment_lead="true"
+| stats values(scan_lead) AS scan_lead values(enrichment_lead) AS enrichment_lead values(dest_ip) AS destinations values(dest_port) AS ports values(asset_role) AS asset_role by src_ip
+| sort src_ip

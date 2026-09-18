@@ -1,0 +1,8 @@
+_time,src_ip,dest_ip,dest_port,conn_state,intel_match,intel_confidence,asset_role,approved_scanner
+2026-09-17T14:00:01Z,10.0.0.79,10.0.0.21,445,S0,false,none,user-workstation,false
+2026-09-17T14:00:12Z,10.0.0.79,10.0.0.22,445,S0,false,none,user-workstation,false
+2026-09-17T14:00:23Z,10.0.0.79,10.0.0.23,445,S0,false,none,user-workstation,false
+2026-09-17T14:00:34Z,10.0.0.79,10.0.0.24,445,S0,false,none,user-workstation,false
+2026-09-17T14:00:45Z,10.0.0.79,10.0.0.25,445,S0,false,none,user-workstation,false
+2026-09-17T14:01:01Z,10.0.0.19,224.0.0.251,5353,SF,false,none,printer,false
+2026-09-17T14:01:25Z,10.0.0.142,198.51.100.44,443,SF,true,moderate,lab-server,false
