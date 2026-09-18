@@ -151,3 +151,8 @@ This project demonstrates the ability to:
 - Thresholds are starting points and require environmental baselining.
 
 These limitations are intentional: they show where confidence ends and which data source should be added next.
+
+
+## Validated end-to-end investigation
+
+The [end-to-end case study](docs/end_to_end_investigation.md) uses clearly labeled synthetic Zeek-like telemetry to validate the full workflow: discovery hypothesis, reproducible SPL, multicast and approved-scanner exclusions, intelligence enrichment, candidate ATT&CK T1046 mapping, confidence boundary, disposition, and next collection. The included Python validator confirms the expected discovery and intelligence leads without claiming a real intrusion.
